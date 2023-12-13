@@ -2,25 +2,31 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const csurf = require('csurf');
-const { environment } = require('.config/index');
+const { environment } = require('./config/index');
 const { ValidationError } = require('sequelize');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const userRouter = require('./routes/userRoutes');
+const blogRouter = require('./routes/blogRoutes');
 
 const isProduction = environment === 'production';
 const app = express();
+
 
 //Midlleware
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
+app.use('/api/users', userRouter);
+app.use('/api/blogs', blogRouter);
 
 if(!isProduction){
     app.use(cors());
     //use cors only in development
 }
 
-app.use(helmet({crossOriginResourcePolicy: {
+app.use(helmet({
+    crossOriginResourcePolicy: {
     policy: 'cross-origin'
 }}));
 
