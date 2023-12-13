@@ -1,4 +1,5 @@
 'use strict';
+const { Op } = require('sequelize');
 const {
   Model
 } = require('sequelize');
@@ -13,12 +14,80 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Blog, {foreignKey: 'userId'});
     }
+
+    comparePassword(password) {
+      return bcrypt.compareSync(password, this.hashedPassword.toString());
+    }
+
+    toSafeObject() {
+      const { id, username, email } = this;
+      return { id, username, email };
+    }
+
+    static async findByCredential(credential) {
+      return await User.scope('loginUser').findOne({
+        where: {
+          [Op.or]: {
+            username: credential,
+            email: credential,
+          },
+        },
+      });
+    }
+
+    static login = async function ({ credential, password }) {
+      const user = await User.findByCredential(credential);
+      if (user && user.comparePassword(password)) {
+        return await Userscope('currentUser').findByPk(user.id);
+      }
+    };
+
+    static signup = async function ({ username, email, password }) {
+      const hashedPassword = bcrypt.hashSync(password);
+      const user = await User.create({
+        username,
+        email,
+        hashedPassword,
+      });
+      return await User.scope('currentUser').findByPk(user.id);
+    };
+
+
+
+
   }
   User.init({
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    hashedPassword: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+
+    email: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      validate:{
+        isEmail: true,
+      }
+    },
+  hashedPassword: {
+    type: DataTypes.STRING.BINARY,
+    allowNull: false,
+  }
   }, {
+    defaultScope:{
+      attributes: {
+        exclude: ['hashedPassword', 'email', 'createdAt', 'updatedAt'],
+      },
+    },
+    scopes: {
+      currentUser: {
+        attributes: { exclude: ['hashedPassword'] },
+      },
+      loginUser: {
+        attributes: {},
+      },
+    },
     sequelize,
     modelName: 'User',
   });
