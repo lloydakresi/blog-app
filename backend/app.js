@@ -6,8 +6,8 @@ const { environment } = require('./config/index');
 const { ValidationError } = require('sequelize');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const userRouter = require('./routes/userRoutes');
-const blogRouter = require('./routes/blogRoutes');
+const routes = require('./routes/index');
+
 
 const isProduction = environment === 'production';
 const app = express();
@@ -17,8 +17,8 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
-app.use('/api/users', userRouter);
-app.use('/api/blogs', blogRouter);
+app.use('/api',routes);
+
 
 if(!isProduction){
     app.use(cors());
