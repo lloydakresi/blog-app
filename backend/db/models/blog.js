@@ -13,6 +13,28 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Blog.belongsTo(models.User, {foreignKey: 'userId'});
     }
+
+
+    static updateBlog = async function ({ id, title, content, image_urls, userId }) {
+      const blog = await Blog.findByPk(id);
+      if(blog){
+        return await blog.update({
+          title,
+          content,
+          image_urls,
+          userId,
+        });
+      }
+    };
+
+    static deleteBlog = async function ({ id }) {
+      const blog = await Blog.findByPk(id);
+      if(blog){
+        return await blog.destroy();
+      }
+    };
+
+
   }
   Blog.init({
     title: {
@@ -33,6 +55,15 @@ module.exports = (sequelize, DataTypes) => {
     image_urls:{
       type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
+    },
+
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id',
+      }
     },
 
   }, {

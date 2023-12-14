@@ -1,5 +1,7 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
+const { Blog } = require('./blog');
 const {
   Model
 } = require('sequelize');
@@ -32,13 +34,17 @@ module.exports = (sequelize, DataTypes) => {
             email: credential,
           },
         },
+
       });
     }
 
     static login = async function ({ credential, password }) {
       const user = await User.findByCredential(credential);
       if (user && user.comparePassword(password)) {
-        return await Userscope('currentUser').findByPk(user.id);
+        return await User.scope('currentUser').findOne({
+          where: { id: user.id },
+          include: Blog,
+        })
       }
     };
 

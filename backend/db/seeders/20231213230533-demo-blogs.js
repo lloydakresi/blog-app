@@ -3,6 +3,7 @@ const faker = require('@faker-js/faker');
 const tenBlogs = Array.from({ length: 10 }, (_, index) => ({
   title: `BlogTitle${index}`,
   content: `BlogContent${index}`,
+  userId: index + 1,
 }));
 
 /** @type {import('sequelize-cli').Migration} */
