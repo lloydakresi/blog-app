@@ -1,46 +1,54 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { login } from '../../store/session';
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/session/sessionSlice';
+import { useNavigate } from 'react-router-dom'
+
 
 const LoginForm = () => {
     const dispatch = useDispatch();
-    const sessionUser = useSelector(state => state.session.user);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-    username: '',
+    credential: '',
     password: '',
   });
 
-  if (sessionUser) return <Redirect to="/" />;
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your logic to handle login, e.g., send data to the server
-    dispatch(login(formData));
-    // Reset the form after submission if needed
-    setFormData({
-      username: '',
-      password: '',
-    });
+  const canSave = Boolean(formData.credential) && Boolean(formData.password);
+
+  const handleSubmit = async (e) => {
+    if (canSave){
+        e.preventDefault();
+        // Add your logic to handle login, e.g., send data to the server
+        try {
+            await dispatch(login(formData)).unwrap()
+            // Reset the form after submission if needed
+            setFormData({
+                credential: '',
+                password: '',
+              });
+            navigate('/');
+        }catch(err){
+            console.error('Failed to login');
+        }
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="username">Username or Email:</label>
+        <label htmlFor="credentials">Username or Email:</label>
         <input
           type="text"
-          id="username"
-          name="username"
-          value={formData.username}
+          id="credential"
+          name="credential"
+          value={formData.credential}
           onChange={handleChange}
           required
         />
@@ -58,7 +66,7 @@ const LoginForm = () => {
         />
       </div>
 
-      <button type="submit">Log In</button>
+      <button type="submit" disabled={!canSave}>Log In</button>
     </form>
   );
 };

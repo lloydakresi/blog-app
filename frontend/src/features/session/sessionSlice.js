@@ -22,12 +22,14 @@ const sessionSlice = createSlice({
             state.errors.push(action.error.message);
         })
         .addCase(login.fulfilled, (state, action) => {
+            state.status = 'succeeded';
             state.user.push(action.payload);
         })
         .addCase(signup.pending, (state, action) => {
             state.status = 'loading';
         })
         .addCase(signup.fulfilled, (state, action) => {
+            state.status = 'succeeded';
             state.user.push(action.payload);
         })
         .addCase(signup.rejected, (state, action) => {
@@ -38,7 +40,8 @@ const sessionSlice = createSlice({
             state.status = 'loading';
         })
         .addCase(restoreUser.fulfilled, (state, action) => {
-            state,user.push(action.payload);
+            state.status = 'succeeded';
+            state.user.push(action.payload);
         })
         .addCase(restoreUser.rejected, (state, action) => {
             state.status = 'failed';
@@ -48,6 +51,7 @@ const sessionSlice = createSlice({
             state.status = 'loading';
         })
         .addCase(logout.fulfilled, (state, action) => {
+            state.status = 'succeeded';
             state.user.push(action.payload);
         })
         .addCase(logout.rejected, (state, action) => {

@@ -3,6 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {RouterProvider } from 'react-router-dom';
 import router from './homeElements/router';
+import { store } from './store/store';
+import { restoreCSRF, csrfFetch } from './store/csrf'
+
+if (process.env.NODE_ENV !== 'production') {
+  restoreCSRF();
+
+  window.csrfFetch = csrfFetch;
+  window.store = store;
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
