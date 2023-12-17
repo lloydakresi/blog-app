@@ -58,7 +58,14 @@ module.exports = (sequelize, DataTypes) => {
       return await User.scope('currentUser').findByPk(user.id);
     };
 
-
+    static getUserBlogs = async function({ id: userId }){
+      const blogs = await Blog.findAll({
+        where: {
+          userId: userId  // Fix: Use the renamed variable userId
+        }
+      });
+      return blogs;  // Assuming you want to return the blogs
+    };
 
 
   }

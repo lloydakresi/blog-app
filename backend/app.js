@@ -44,7 +44,9 @@ app.use(
   })
 );
 
-app.use(routes); // Connect all the routes
+
+
+app.use('/api', routes); // Connect all the routes
 
 //error handlers:
 

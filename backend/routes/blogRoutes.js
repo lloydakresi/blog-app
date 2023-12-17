@@ -3,9 +3,23 @@ const router = express.Router();
 const { Blog, User } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
-const { requireAuth } = require('../utils/auth');
+const { handleValidationErrors } = require('../utils/validation');
 
-//router.use(requireAuth);
+const validateBlog = [
+    check('title')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 1 }),
+
+    check('content')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 1, max: 2000 }),
+
+    check('imageUrls')
+      .exists({ checkFalsy: true })
+      .isArray(),
+
+    handleValidationErrors
+  ];
 
 //get all blogs
 router.get('/', asyncHandler(async (req, res)=>{
@@ -15,6 +29,7 @@ router.get('/', asyncHandler(async (req, res)=>{
     });
     res.json({blogs});
 }))
+
 
 //get one blog
 router.get('/:id', asyncHandler(async (req, res)=>{
@@ -26,14 +41,14 @@ router.get('/:id', asyncHandler(async (req, res)=>{
 }))
 
 //create blog
-router.post('/', asyncHandler(async (req, res)=>{
+router.post('/', validateBlog, asyncHandler(async (req, res)=>{
     const {title, content, userId, imageUrls} = req.body;
     const blog = await Blog.create({title, content, userId, imageUrls});
     res.json({blog});
 }))
 
 //update blog
-router.put('/:id', asyncHandler(async (req, res)=>{
+router.put('/:id', validateBlog, asyncHandler(async (req, res)=>{
     const blogId = req.params.id;
     const {title, content, userId, imageUrls} = req.body;
     const blog = await Blog.updateBlog({id: blogId, title, content, userId, imageUrls});
