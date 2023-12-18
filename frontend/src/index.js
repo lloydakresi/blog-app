@@ -1,14 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import {RouterProvider } from 'react-router-dom';
-import router from './homeElements/router';
-import { store } from './store/store';
-import { restoreCSRF, csrfFetch } from './store/csrf'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './store/store'
+import { csrfFetch, restoreCSRF } from './store/csrf';
+import SignupForm from './features/session/sessionComponents/SignUp';
+import LoginForm from './features/session/sessionComponents/Login';
+//import HomePage from './components/HomePage';
+import BlogList from './components/blog/BlogList';
+import App from './App';
+import FullBlog from './components/blog/FullBlog';
+import CreateBlogForm from './components/blog/AddPost';
+import EditBlogForm  from './components/blog/EditPost';
+
+
 
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();
-
   window.csrfFetch = csrfFetch;
   window.store = store;
 }
@@ -16,10 +25,21 @@ if (process.env.NODE_ENV !== 'production') {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} >
+
+        <Route path="signup" element={<SignupForm />} />
+        <Route path="login" element={<LoginForm />} />
+        <Route path="blogs" element={<BlogList />} />
+        <Route path="blogs/:id" element={<FullBlog />}/>
+        <Route path="blogs/new/" element={<CreateBlogForm />}/>
+        <Route path="blogs/:blogId/edit" element={<EditBlogForm />}/>
+
+        </Route>
+      </Routes>
+    </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

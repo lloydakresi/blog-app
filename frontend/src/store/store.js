@@ -1,20 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import blogReducer from '../features/blog/blogSlice';
-import { csrfFetch, restoreCSRF } from './csrf';
-import sessionReducer from '../features/session/sessionSlice';
+import {configureStore} from '@reduxjs/toolkit';
+import {blogApi} from '../services/apiSlice';
+import  sessionReducer from '../features/session/sessionSlice';
 
 export const store = configureStore({
     reducer:{
-        //add reducers here
-        blog: blogReducer,
+        [blogApi.reducerPath]: blogApi.reducer,
         session: sessionReducer,
 
-    }
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(blogApi.middleware),
 })
-
-if (process.env.NODE_ENV !== 'production') {
-    restoreCSRF();
-
-    window.csrfFetch = csrfFetch;
-    window.store = store;
-  }

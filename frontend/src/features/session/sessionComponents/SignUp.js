@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../../features/session/sessionSlice'; // Replace with the actual path to your authentication slice
+import { signup } from '../sessionSlice';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -27,14 +27,14 @@ const SignupForm = () => {
     e.preventDefault();
     if (canSave) {
       try {
-        await dispatch(signup(formData)).unwrap(); // Adjust this based on your actual signup logic
+        await dispatch(signup(formData)).unwrap(); //
         // Reset the form after submission if needed
         setFormData({
           email: '',
           password: '',
           username: '',
         });
-        navigate('/');
+        navigate('/blogs');
       } catch (err) {
         console.error('Failed to sign up');
       }

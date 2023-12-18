@@ -72,12 +72,13 @@ export const login = createAsyncThunk('session/login', async function (user) {
         })
     });
     const data = await response.json();
+    console.log(data);
     return data.user;
 })
 
 export const signup = createAsyncThunk('session/signup', async function (user) {
     const { username, email, password } = user;
-    const response = await csrfFetch('/api/users', {
+    const response = await csrfFetch('/api/session/signup', {
         method: 'POST',
         body: JSON.stringify({
             username,
@@ -102,6 +103,8 @@ export const restoreUser = createAsyncThunk('session/restoreUser', async functio
     const data = await response.json();
     return data.user;
 })
+
+
 
 
 export default sessionSlice.reducer;
