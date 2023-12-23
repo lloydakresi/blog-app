@@ -1,9 +1,10 @@
+
+
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-//import { useCreateBlogMutation } from '../../services/apiSlice';
 import { useNavigate } from 'react-router-dom';
-import { blogApi } from '../../services/apiSlice';
-
+import { blogApi } from '../../../services/apiSlice';
+import './AddPost.css'; // Import the CSS file
 
 const CreateBlogForm = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,6 @@ const CreateBlogForm = () => {
     content: '',
     imageUrls: [],
   });
-
 
   if (status === 'loading' || session.status === 'loading') {
     return (
@@ -71,28 +71,27 @@ const CreateBlogForm = () => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check if any image URL is empty before submitting
-    if (formData.imageUrls.some(url => url.trim() === '')) {
+    if (formData.imageUrls.some((url) => url.trim() === '')) {
       alert('Please provide a valid image URL for all fields.');
     }
 
     // Dispatch action to create a new blog post
-    const { isLoading, isSuccess } =
-      dispatch(
-        blogApi.endpoints.createBlog.initiate({
-            title: formData.title,
-            content: formData.content,
-            imageUrls: formData.imageUrls,
-            userId,
-          })
-      );
+    const { isLoading, isSuccess } = dispatch(
+      blogApi.endpoints.createBlog.initiate({
+        title: formData.title,
+        content: formData.content,
+        imageUrls: formData.imageUrls,
+        userId,
+      })
+    );
 
     if (isLoading) {
       alert('Creating blog post...');
-    };
+    }
 
     if (isSuccess) {
       navigate(`/blogs`);
@@ -109,8 +108,8 @@ const CreateBlogForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form className="create-blog-form" onSubmit={handleSubmit}>
+      <div className="form-group">
         <label htmlFor="title">Title:</label>
         <input
           type="text"
@@ -119,10 +118,11 @@ const CreateBlogForm = () => {
           value={formData.title}
           onChange={handleChange}
           required
+          className="input-field"
         />
       </div>
 
-      <div>
+      <div className="form-group">
         <label htmlFor="content">Content:</label>
         <textarea
           id="content"
@@ -130,30 +130,38 @@ const CreateBlogForm = () => {
           value={formData.content}
           onChange={handleChange}
           required
+          className="textarea-field"
         />
       </div>
 
-      <div>
+      <div className="form-group">
         <label htmlFor="imageUrls">Image URLs (separated by commas):</label>
         {formData.imageUrls.map((url, index) => (
-          <div key={index}>
+          <div className="image-url-group" key={index}>
             <input
               type="text"
               value={url}
               onChange={(e) => handleImageUrlChange(e, index)}
               required
+              className="input-field"
             />
-            <button type="button" onClick={() => handleRemoveImageUrl(index)}>
+            <button
+              type="button"
+              onClick={() => handleRemoveImageUrl(index)}
+              className="remove-button"
+            >
               Remove
             </button>
           </div>
         ))}
-        <button type="button" onClick={handleAddImageUrl}>
+        <button type="button" onClick={handleAddImageUrl} className="add-image-button">
           Add Image
         </button>
       </div>
 
-      <button type="submit">Create Blog Post</button>
+      <button type="submit" className="submit-button">
+        Create Blog Post
+      </button>
     </form>
   );
 };

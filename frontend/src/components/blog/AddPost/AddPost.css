@@ -1,0 +1,59 @@
+/* CreateBlogForm.css */
+
+.create-blog-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .input-field,
+  .textarea-field {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .textarea-field {
+    min-height: 200px; /* Set a minimum height for the textarea */
+    resize: vertical; /* Allow vertical resizing */
+  }
+
+  .image-url-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .remove-button,
+  .add-image-button,
+  .submit-button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .remove-button {
+    background-color: #d9534f;
+  }
+
+  .remove-button:hover,
+  .add-image-button:hover,
+  .submit-button:hover {
+    background-color: #45a049;
+  }

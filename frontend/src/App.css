@@ -2,6 +2,22 @@
   text-align: center;
 }
 
+body{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  height: 100vh;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.outlet_wrapper{
+  height: 70vh;
+}
+
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,0 +1,56 @@
+/* Footer.css */
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    }
+
+  .footerContent {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .footerTitle {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .footerText {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .socialIcons {
+    display: flex;
+    justify-content: center;
+  }
+
+  .socialIcon {
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+
+  .socialIcon i {
+    transition: color 0.3s ease;
+  }
+
+  .socialIcon:hover i {
+    color: #ffd700; /* Change the color on hover */
+  }
+
+  .footerBottom {
+    margin-top: 20px;
+  }
+
+  .copyrightText {
+    font-size: 0.8rem;
+  }
+
+  /* Add more styles as needed */

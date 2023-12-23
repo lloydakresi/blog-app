@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { blogApi, useGetBlogByIdQuery } from '../../services/apiSlice';
+import { blogApi, useGetBlogByIdQuery } from '../../../services/apiSlice';
+import './EditPost.css';
 
 const EditBlogForm = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,6 @@ const EditBlogForm = () => {
 
   useEffect(() => {
     const blog = data?.blog;
-    console.log(blog);
 
     if (blog) {
       setFormData({
@@ -72,23 +72,19 @@ const EditBlogForm = () => {
     e.preventDefault();
 
     try {
-      // Dispatch the editBlog action and wait for it to complete
       const { title, content, imageUrls } = formData;
       await dispatch(
         blogApi.endpoints.updateBlog.initiate({
-            title,
-            content,
-            imageUrls,
-            blogId,
-            userId: session.user[0]?.id
+          title,
+          content,
+          imageUrls,
+          blogId,
+          userId: session.user[0]?.id,
         })
       ).unwrap();
 
-      // After the state has been updated, navigate to the post
-        alert('Blog post updated successfully!');
-        navigate(`/blogs`);
-
-
+      alert('Blog post updated successfully!');
+      navigate(`/blogs`);
     } catch (error) {
       console.error('Error updating blog:', error);
     }
@@ -96,7 +92,7 @@ const EditBlogForm = () => {
 
   if (isLoading) {
     return (
-      <div>
+      <div className="editBlogForm">
         <h1>Blog List</h1>
         <h2>Loading...</h2>
       </div>
@@ -105,7 +101,7 @@ const EditBlogForm = () => {
 
   if (isError) {
     return (
-      <div>
+      <div className="editBlogForm">
         <h1>Blog List</h1>
         <h2>Failed to load posts</h2>
       </div>
@@ -113,8 +109,8 @@ const EditBlogForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form className="editBlogForm" onSubmit={handleSubmit}>
+      <div className="formGroup">
         <label htmlFor="title">Title:</label>
         <input
           type="text"
@@ -126,7 +122,7 @@ const EditBlogForm = () => {
         />
       </div>
 
-      <div>
+      <div className="formGroup">
         <label htmlFor="content">Content:</label>
         <textarea
           id="content"
@@ -137,27 +133,37 @@ const EditBlogForm = () => {
         />
       </div>
 
-      <div>
+      <div className="formGroup">
         <label htmlFor="imageUrls">Image URLs:</label>
         {formData.imageUrls.map((url, index) => (
-          <div key={index}>
+          <div className="imageUrlGroup" key={index}>
             <input
               type="text"
               value={url}
               onChange={(e) => handleImageUrlChange(e, index)}
               required
             />
-            <button type="button" onClick={() => handleRemoveImageUrl(index)}>
+            <button
+              type="button"
+              className="removeImageUrlButton"
+              onClick={() => handleRemoveImageUrl(index)}
+            >
               Remove
             </button>
           </div>
         ))}
-        <button type="button" onClick={handleAddImageUrl}>
+        <button
+          type="button"
+          className="addImageUrlButton"
+          onClick={handleAddImageUrl}
+        >
           Add Image
         </button>
       </div>
 
-      <button type="submit">Update Blog Post</button>
+      <button type="submit" className="submitUpdateButton">
+        Update Blog Post
+      </button>
     </form>
   );
 };

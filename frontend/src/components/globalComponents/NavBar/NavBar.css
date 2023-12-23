@@ -1,0 +1,107 @@
+/* NavBar.css */
+
+.navbar {
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 8vh; /* Increase height for better visibility */
+  }
+
+  .navbar__logo {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem; /* Slightly larger font size */
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .navbar_links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar_links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar_links li {
+    list-style: none;
+    padding: 0 1.5rem; /* Increased horizontal padding */
+  }
+
+  .navbar_links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .navbar_links a:hover {
+    color: #ffcc00;
+  }
+
+  .navbar_login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .navbar_login ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar_login li {
+    list-style: none;
+    padding: 0 1.5rem; /* Increased horizontal padding */
+  }
+
+  .navbar_login a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .navbar_user button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .navbar_user li{
+    list-style: none;
+    padding: 0 1.5rem;
+    display: inline; /* Increased horizontal padding */
+  }
+
+.navbar_user li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+  .navbar_login a:hover {
+    color: #ffcc00;
+  }

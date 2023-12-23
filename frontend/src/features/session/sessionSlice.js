@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { csrfFetch } from '../../store/csrf';
 
+
 const initialState = {
     user: [],
     status: 'idle',
-    errors: []
+    errors: [],
+    isOwner: false,
 };
 
 const sessionSlice = createSlice({
@@ -24,6 +26,8 @@ const sessionSlice = createSlice({
         .addCase(login.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.user.push(action.payload);
+            state.isOwner = true;
+            //state.loginStatus = true;
         })
         .addCase(signup.pending, (state, action) => {
             state.status = 'loading';
@@ -42,6 +46,7 @@ const sessionSlice = createSlice({
         .addCase(restoreUser.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.user.push(action.payload);
+            //state.sessionRestored = true;
         })
         .addCase(restoreUser.rejected, (state, action) => {
             state.status = 'failed';
@@ -53,6 +58,7 @@ const sessionSlice = createSlice({
         .addCase(logout.fulfilled, (state, action) => {
             state.status = 'succeeded';
             state.user.push(action.payload);
+            state.isOwner = false;
         })
         .addCase(logout.rejected, (state, action) => {
             state.status = 'failed';
@@ -103,8 +109,5 @@ export const restoreUser = createAsyncThunk('session/restoreUser', async functio
     const data = await response.json();
     return data.user;
 })
-
-
-
 
 export default sessionSlice.reducer;

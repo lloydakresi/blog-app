@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+// SignupForm.js
+
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../sessionSlice';
+import { signup } from '../../sessionSlice';
+import './SignUp.css'; // Import the generated CSS file
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -27,7 +30,7 @@ const SignupForm = () => {
     e.preventDefault();
     if (canSave) {
       try {
-        await dispatch(signup(formData)).unwrap(); //
+        await dispatch(signup(formData)).unwrap();
         // Reset the form after submission if needed
         setFormData({
           email: '',
@@ -42,9 +45,11 @@ const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="email">Email:</label>
+    <form className="signup-form" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="email" id="email-label">
+          Email:
+        </label>
         <input
           type="email"
           id="email"
@@ -55,8 +60,10 @@ const SignupForm = () => {
         />
       </div>
 
-      <div>
-        <label htmlFor="username">Username:</label>
+      <div className="form-group">
+        <label htmlFor="username" id="username-label">
+          Username:
+        </label>
         <input
           type="text"
           id="username"
@@ -67,8 +74,10 @@ const SignupForm = () => {
         />
       </div>
 
-      <div>
-        <label htmlFor="password">Password:</label>
+      <div className="form-group">
+        <label htmlFor="password" id="password-label">
+          Password:
+        </label>
         <input
           type="password"
           id="password"
@@ -79,7 +88,7 @@ const SignupForm = () => {
         />
       </div>
 
-      <button type="submit" disabled={!canSave}>
+      <button type="submit" disabled={!canSave} className="signup-button" id="signup-button">
         Sign Up
       </button>
     </form>
