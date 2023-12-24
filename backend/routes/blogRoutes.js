@@ -4,6 +4,7 @@ const { Blog, User } = require('../db/models');
 const asyncHandler = require('express-async-handler');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../utils/validation');
+const { requireAuth } = require('../utils/auth');
 
 const validateBlog = [
     check('title')
@@ -40,11 +41,14 @@ router.get('/:id', asyncHandler(async (req, res)=>{
     res.json({blog});
 }))
 
+router.use(requireAuth);
+
+
 //create blog
 router.post('/', validateBlog, asyncHandler(async (req, res)=>{
     const {title, content, userId, imageUrls} = req.body;
     const blog = await Blog.create({title, content, userId, imageUrls});
-    res.json({blog});
+    //res.json({blog});
 }))
 
 //update blog

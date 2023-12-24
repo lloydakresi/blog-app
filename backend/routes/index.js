@@ -7,11 +7,11 @@ const { requireAuth } = require('../utils/auth');
 
 
 router.use('/session', sessionRouter);
-router.use(requireAuth)
-
-
-router.use('/users', userRouter);
 router.use('/blogs', blogRouter);
+
+router.use(requireAuth);
+router.use('/users', userRouter);
+
 
 if (process.env.NODE_ENV === 'production') {
     const path = require('path');

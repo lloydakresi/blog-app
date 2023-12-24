@@ -82,7 +82,7 @@ router.post('/signup', validateSignup, asyncHandler(async (req, res, next)=>{
 //logout route
 router.delete('/logout', (req, res)=>{
     res.clearCookie('token');
-    res,json({message:'success'})
+    res.json({message:'success'})
 })
 
 //restore user route
